@@ -81,10 +81,28 @@ class _LoginPageState extends State<LoginPage> {
                 ElevatedButton(
                   child: Text("로그인", style: TextStyle(fontSize: 21)),
                   onPressed: () {
-                    // 로그인 성공시 HomePage로 이동
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (_) => HomePage()),
+                    // 로그인
+                    authService.signIn(
+                      email: emailController.text,
+                      password: passwordController.text,
+                      onSuccess: () {
+                        // 로그인 성공
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text("로그인 성공"),
+                          ),
+                        );
+                      },
+                      onError: (err) {
+                        // 에러 발생
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              err,
+                            ),
+                          ),
+                        );
+                      },
                     );
                   },
                 ),
