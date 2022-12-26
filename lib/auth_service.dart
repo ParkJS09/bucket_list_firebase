@@ -91,5 +91,7 @@ class AuthService extends ChangeNotifier {
 
   void signOut() async {
     // 로그아웃
+    await FirebaseAuth.instance.signOut();
+    notifyListeners();
   }
 }
