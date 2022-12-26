@@ -212,7 +212,6 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-
                     /// 추가 버튼
                     ElevatedButton(
                       child: Icon(Icons.add),
@@ -264,6 +263,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           onTap: () {
                             // 아이템 클릭하여 isDone 업데이트
+                            bucketService.update(doc.id, !isDone);
                           },
                         );
                       },
