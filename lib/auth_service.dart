@@ -29,18 +29,31 @@ class AuthService extends ChangeNotifier {
         email: email,
         password: password,
       );
-
       // 성공 함수 호출
       onSuccess();
     } on FirebaseAuthException catch (e) {
       // Firebase auth 에러 발생
-      onError(e.message!);
+      if(e.message != null) {
+        if (e.code == 'weak-password') {
+          onError('비밀번호를 6자리 이상 입력해 주세요.');
+        } else if (e.code == 'email-already-in-use') {
+          onError('이미 가입된 이메일 입니다.');
+        } else if (e.code == 'invalid-email') {
+          onError('이메일 형식을 확인해주세요.');
+        } else if (e.code == 'user-not-found') {
+          onError('일치하는 이메일이 없습니다.');
+        } else if (e.code == 'wrong-password') {
+          onError('비밀번호가 일치하지 않습니다.');
+        } else {
+          onError(e.message!);
+        }
+      }else {
+        onError('에러가 발생하였습니다.');
+      }
     } catch (e) {
       // Firebase auth 이외의 에러 발생
       onError(e.toString());
     }
-
-
   }
 
   void signIn({
