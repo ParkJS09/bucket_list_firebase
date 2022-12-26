@@ -259,6 +259,7 @@ class _HomePageState extends State<HomePage> {
                             icon: Icon(CupertinoIcons.delete),
                             onPressed: () {
                               // 삭제 버튼 클릭시
+                              bucketService.delete(doc.id);
                             },
                           ),
                           onTap: () {

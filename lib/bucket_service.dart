@@ -23,5 +23,7 @@ class BucketService extends ChangeNotifier {
 
   void delete(String docId) async {
     // bucket 삭제
+    await bucketCollection.doc(docId).delete();
+    notifyListeners();
   }
 }
