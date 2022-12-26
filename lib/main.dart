@@ -237,6 +237,13 @@ class _HomePageState extends State<HomePage> {
                   builder: (context, snapshot) {
                     print(snapshot.hasData);
                     final document = snapshot.data?.docs ?? [];
+                    if(document.isEmpty){
+                      return const Center(
+                        child: Text(
+                          '버킷 리스트를 추가해보세요 😍'
+                        ),
+                      );
+                    }
                     return ListView.builder(
                       itemCount: document.length,
                       itemBuilder: (context, index) {
