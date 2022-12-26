@@ -1,4 +1,5 @@
 import 'package:bucket_list_firebase/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Consumer<AuthService>(
       builder: (context, authService, child) {
+        User? user = authService.currentUser();
         return Scaffold(
           appBar: AppBar(title: Text("로그인")),
           body: SingleChildScrollView(
@@ -55,13 +57,13 @@ class _LoginPageState extends State<LoginPage> {
                 /// 현재 유저 로그인 상태
                 Center(
                   child: Text(
-                    "로그인해 주세요 🙂",
+                    user == null ? "로그인해 주세요 🙂" : '${user.email}님 안녕하세요 😍',
                     style: TextStyle(
                       fontSize: 24,
                     ),
                   ),
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
 
                 /// 이메일
                 TextField(
@@ -75,11 +77,11 @@ class _LoginPageState extends State<LoginPage> {
                   obscureText: false, // 비밀번호 안보이게
                   decoration: InputDecoration(hintText: "비밀번호"),
                 ),
-                SizedBox(height: 32),
+                const SizedBox(height: 32),
 
                 /// 로그인 버튼
                 ElevatedButton(
-                  child: Text("로그인", style: TextStyle(fontSize: 21)),
+                  child: const Text("로그인", style: TextStyle(fontSize: 21)),
                   onPressed: () {
                     // 로그인
                     authService.signIn(
@@ -88,8 +90,15 @@ class _LoginPageState extends State<LoginPage> {
                       onSuccess: () {
                         // 로그인 성공
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text("로그인 성공"),
+                          ),
+                        );
+
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HomePage(),
                           ),
                         );
                       },
